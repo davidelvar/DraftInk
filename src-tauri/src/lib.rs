@@ -31,7 +31,7 @@ fn read_binary_file(path: &str) -> Result<Vec<u8>, String> {
 /// Returns the path to the boards directory, creating it if needed.
 fn get_boards_dir() -> Result<std::path::PathBuf, String> {
     let base = dirs::document_dir()
-        .or_else(|| dirs::home_dir())
+        .or_else(dirs::home_dir)
         .ok_or_else(|| "Cannot determine documents directory".to_string())?;
     let boards_dir = base.join("DraftInk").join("boards");
     if !boards_dir.exists() {
