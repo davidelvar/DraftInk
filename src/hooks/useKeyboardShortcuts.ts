@@ -121,7 +121,7 @@ export function useKeyboardShortcuts(onToggleHelp: () => void) {
           const prevTool = vui.prePresentationTool;
           vui.exitPresentationMode();
           if (prevTool) {
-            useToolStore.getState().setTool(prevTool as any);
+            useToolStore.getState().setTool(prevTool);
           }
         } else {
           // Save current tool and switch to hand
@@ -363,7 +363,7 @@ export function useKeyboardShortcuts(onToggleHelp: () => void) {
           const prevTool = vui.prePresentationTool;
           vui.exitPresentationMode();
           if (prevTool) {
-            useToolStore.getState().setTool(prevTool as any);
+            useToolStore.getState().setTool(prevTool);
           }
           return;
         }

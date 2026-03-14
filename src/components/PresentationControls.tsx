@@ -51,7 +51,7 @@ export default function PresentationControls() {
   const handleExit = useCallback(() => {
     exitPresentationMode();
     if (prePresentationTool) {
-      useToolStore.getState().setTool(prePresentationTool as any);
+      useToolStore.getState().setTool(prePresentationTool);
     }
   }, [exitPresentationMode, prePresentationTool]);
 

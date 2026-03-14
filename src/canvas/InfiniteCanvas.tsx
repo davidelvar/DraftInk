@@ -565,7 +565,7 @@ export default function InfiniteCanvas() {
       unsubTheme();
       unsubGrid();
     };
-  }, [viewportRef]);
+  }, [viewportRef, getViewportBounds]);
 
   // ─── Helper: get canvas-space coords from pointer event ───────
   const pointerToCanvas = useCallback(
@@ -1132,7 +1132,7 @@ export default function InfiniteCanvas() {
         }
       }
     },
-    [pointerToCanvas, requestRender, commitText],
+    [pointerToCanvas, requestRender, commitText, handleTextInput, viewportRef],
   );
 
   const onPointerMove = useCallback(
@@ -1468,7 +1468,7 @@ export default function InfiniteCanvas() {
         requestRender();
       }
     },
-    [pan, pointerToCanvas, requestRender],
+    [pan, pointerToCanvas, requestRender, viewportRef, zoom],
   );
 
   const onPointerUp = useCallback(

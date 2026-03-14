@@ -25,7 +25,7 @@ describe("Freehand Drawing", () => {
     await browser.pause(500);
 
     // Verify the element count increased by checking the document store
-    const elementCount = await browser.execute(() => {
+    const _elementCount = await browser.execute(() => {
       // Access Zustand store state from the window context
       const storeState = (window as unknown as Record<string, unknown>).__ZUSTAND_STORE__;
       if (storeState) return -1; // Store not directly accessible

@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import type { ToolType } from "./toolStore";
 
 /**
  * Lightweight store to expose viewport zoom level and controls to UI
@@ -47,7 +48,7 @@ interface ViewportUIState {
   /** Whether presentation mode is active. */
   presentationMode: boolean;
   /** Tool that was active before entering presentation mode. */
-  prePresentationTool: string | null;
+  prePresentationTool: ToolType | null;
   enterPresentationMode: () => void;
   exitPresentationMode: () => void;
   /** Deferred pan target — consumed by InfiniteCanvas on mount. */
