@@ -1,6 +1,16 @@
-# DraftInk
+<p align="center">
+  <img src="src-tauri/icons/128x128.png" alt="DraftInk logo" width="96" />
+</p>
 
-A lightweight, offline-first whiteboard application built with [Tauri](https://tauri.app) that lets you draw, write text, add shapes, and organize ideas on an infinite canvas. Fast, native desktop experience — no internet connection or cloud account required.
+<h1 align="center">DraftInk</h1>
+
+<p align="center">
+A lightweight, offline-first whiteboard application built with <a href="https://tauri.app">Tauri</a> that lets you draw, write text, add shapes, and organize ideas on an infinite canvas. Fast, native desktop experience — no internet connection or cloud account required.
+</p>
+
+<p align="center">
+  <img src="screenshot.png" alt="DraftInk screenshot" width="800" style="border-radius:12px" />
+</p>
 
 ## Features
 
