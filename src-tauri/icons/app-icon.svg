@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1024" y2="1024" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0F172A"/>
+      <stop offset="100%" stop-color="#1E293B"/>
+    </linearGradient>
+    <linearGradient id="nibGold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FDE68A"/>
+      <stop offset="40%" stop-color="#F59E0B"/>
+      <stop offset="100%" stop-color="#D97706"/>
+    </linearGradient>
+    <linearGradient id="inkDrop" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0%" stop-color="#6366F1"/>
+      <stop offset="100%" stop-color="#4338CA"/>
+    </linearGradient>
+    <linearGradient id="inkTrail" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#818CF8"/>
+      <stop offset="100%" stop-color="#6366F1"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="dropShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="12" flood-color="#4338CA" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1024" height="1024" fill="url(#bg)"/>
+
+  <!-- Subtle radial light behind the nib -->
+  <circle cx="512" cy="420" r="320" fill="#6366F1" opacity="0.06"/>
+
+  <!-- Ink trail / calligraphic stroke flowing from nib tip -->
+  <path d="M 512 620 C 530 660, 560 700, 620 730 C 680 760, 740 750, 790 720 C 830 695, 850 670, 860 650"
+        stroke="url(#inkTrail)" stroke-width="18" fill="none"
+        stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+  <path d="M 512 620 C 490 660, 460 690, 430 740 C 410 770, 380 790, 340 800"
+        stroke="url(#inkTrail)" stroke-width="12" fill="none"
+        stroke-linecap="round" opacity="0.4"/>
+
+  <!-- Small ink splatter dots -->
+  <circle cx="870" cy="645" r="6" fill="#818CF8" opacity="0.5"/>
+  <circle cx="330" cy="810" r="4" fill="#818CF8" opacity="0.35"/>
+  <circle cx="890" cy="660" r="3" fill="#A5B4FC" opacity="0.4"/>
+
+  <!-- Pen nib — main body (gold metallic) -->
+  <g transform="translate(512, 380)" filter="url(#dropShadow)">
+    <!-- Nib outer shape — elegant pointed fountain pen nib -->
+    <path d="M 0 240 L -70 -40 C -70 -80, -50 -120, 0 -160 C 50 -120, 70 -80, 70 -40 Z"
+          fill="url(#nibGold)"/>
+
+    <!-- Nib center slit -->
+    <line x1="0" y1="220" x2="0" y2="-100" stroke="#92400E" stroke-width="3" opacity="0.6"/>
+
+    <!-- Breather hole -->
+    <circle cx="0" cy="-60" r="12" fill="#0F172A"/>
+    <circle cx="0" cy="-60" r="8" fill="#1E293B"/>
+
+    <!-- Nib edge highlights -->
+    <path d="M -2 240 L -65 -35 C -65 -72, -46 -110, 0 -148"
+          stroke="#FEF3C7" stroke-width="2" fill="none" opacity="0.5"/>
+    <path d="M 2 240 L 65 -35 C 65 -72, 46 -110, 0 -148"
+          stroke="#D97706" stroke-width="1.5" fill="none" opacity="0.3"/>
+
+    <!-- Tines detail — subtle split near tip -->
+    <path d="M -4 180 L -12 80" stroke="#92400E" stroke-width="1.5" opacity="0.3"/>
+    <path d="M 4 180 L 12 80" stroke="#92400E" stroke-width="1.5" opacity="0.3"/>
+  </g>
+
+  <!-- Ink drop forming at nib tip -->
+  <g filter="url(#glow)">
+    <ellipse cx="512" cy="638" rx="14" ry="18" fill="url(#inkDrop)" opacity="0.9"/>
+    <ellipse cx="510" cy="634" rx="5" ry="4" fill="#A5B4FC" opacity="0.5"/>
+  </g>
+
+  <!-- Grip section above nib — dark cylinder -->
+  <rect x="448" y="170" width="128" height="60" rx="8" fill="#334155"/>
+  <rect x="448" y="170" width="128" height="60" rx="8" fill="url(#bg)" opacity="0.3"/>
+  <!-- Metal band -->
+  <rect x="446" y="218" width="132" height="8" rx="2" fill="#64748B"/>
+  <line x1="446" y1="220" x2="578" y2="220" stroke="#94A3B8" stroke-width="1" opacity="0.5"/>
+</svg>

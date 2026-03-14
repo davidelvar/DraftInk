@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+tsconfig.tsbuildinfo
+
+# Rust build output
+src-tauri/target/
+
+# Tauri signing keys (NEVER commit private keys)
+src-tauri/.tauri/
+
+# IDE
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+*.local
+
+# Test coverage
+coverage/
+
+# Logs
+*.log
