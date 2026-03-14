@@ -151,7 +151,7 @@ export default function SearchPanel() {
       const entry = boardStore.boards.find((b) => b.filePath === boardPath);
 
       if (entry) {
-        // If it's a different board, switch to it  
+        // If it's a different board, switch to it
         if (entry.id !== boardStore.activeBoardId) {
           await boardStore.switchBoard(entry.id);
         }
@@ -219,11 +219,7 @@ export default function SearchPanel() {
             value={query}
             onChange={(e) => handleQueryChange(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder={
-              mode === "board"
-                ? "Search in this board…"
-                : "Search across all boards…"
-            }
+            placeholder={mode === "board" ? "Search in this board…" : "Search across all boards…"}
             style={{
               flex: 1,
               background: "transparent",
@@ -248,9 +244,7 @@ export default function SearchPanel() {
                 whiteSpace: "nowrap",
               }}
             >
-              {matches.length > 0
-                ? `${activeMatchIndex + 1}/${matches.length}`
-                : "No results"}
+              {matches.length > 0 ? `${activeMatchIndex + 1}/${matches.length}` : "No results"}
             </span>
           )}
 
@@ -329,8 +323,7 @@ export default function SearchPanel() {
                 fontWeight: 600,
                 border: "none",
                 cursor: "pointer",
-                backgroundColor:
-                  mode === "board" ? "var(--accent)" : "transparent",
+                backgroundColor: mode === "board" ? "var(--accent)" : "transparent",
                 color: mode === "board" ? "#ffffff" : "var(--text-secondary)",
               }}
             >
@@ -345,8 +338,7 @@ export default function SearchPanel() {
                 fontWeight: 600,
                 border: "none",
                 cursor: "pointer",
-                backgroundColor:
-                  mode === "global" ? "var(--accent)" : "transparent",
+                backgroundColor: mode === "global" ? "var(--accent)" : "transparent",
                 color: mode === "global" ? "#ffffff" : "var(--text-secondary)",
               }}
             >
@@ -463,10 +455,7 @@ export default function SearchPanel() {
                           color: "var(--text-primary)",
                         }}
                       >
-                        <HighlightedText
-                          text={getSnippet(match.text, query)}
-                          query={query}
-                        />
+                        <HighlightedText text={getSnippet(match.text, query)} query={query} />
                       </span>
                     </button>
                   ))
@@ -499,89 +488,90 @@ export default function SearchPanel() {
                     No matching text found across boards
                   </div>
                 ) : (
-                  Array.from(groupedResults.entries()).map(
-                    ([boardPath, boardMatches]) => (
-                      <div key={boardPath}>
-                        {/* Board name header */}
-                        <div
+                  Array.from(groupedResults.entries()).map(([boardPath, boardMatches]) => (
+                    <div key={boardPath}>
+                      {/* Board name header */}
+                      <div
+                        style={{
+                          position: "sticky",
+                          top: 0,
+                          padding: "8px 16px",
+                          fontSize: 11,
+                          fontWeight: 600,
+                          textTransform: "uppercase",
+                          letterSpacing: "0.05em",
+                          color: "var(--text-secondary)",
+                          backgroundColor: "var(--bg-secondary)",
+                          borderBottom: "1px solid var(--border)",
+                        }}
+                      >
+                        {boardMatches[0].boardName}
+                        <span
                           style={{
-                            position: "sticky",
-                            top: 0,
-                            padding: "8px 16px",
-                            fontSize: 11,
-                            fontWeight: 600,
-                            textTransform: "uppercase",
-                            letterSpacing: "0.05em",
-                            color: "var(--text-secondary)",
-                            backgroundColor: "var(--bg-secondary)",
-                            borderBottom: "1px solid var(--border)",
+                            marginLeft: 8,
+                            fontWeight: 400,
+                            textTransform: "none",
+                            opacity: 0.6,
                           }}
                         >
-                          {boardMatches[0].boardName}
-                          <span style={{ marginLeft: 8, fontWeight: 400, textTransform: "none", opacity: 0.6 }}>
-                            ({boardMatches.length}{" "}
-                            {boardMatches.length === 1 ? "match" : "matches"})
-                          </span>
-                        </div>
-                        {boardMatches.map((result, i) => (
-                          <button
-                            key={`${result.boardPath}-${result.elementId}-${i}`}
-                            onClick={() => handleCrossBoardResultClick(result)}
+                          ({boardMatches.length} {boardMatches.length === 1 ? "match" : "matches"})
+                        </span>
+                      </div>
+                      {boardMatches.map((result, i) => (
+                        <button
+                          key={`${result.boardPath}-${result.elementId}-${i}`}
+                          onClick={() => handleCrossBoardResultClick(result)}
+                          style={{
+                            display: "flex",
+                            width: "100%",
+                            alignItems: "flex-start",
+                            gap: 12,
+                            padding: "10px 16px",
+                            textAlign: "left",
+                            border: "none",
+                            cursor: "pointer",
+                            backgroundColor: "transparent",
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.backgroundColor =
+                              "color-mix(in srgb, var(--text-primary) 4%, transparent)";
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.backgroundColor = "transparent";
+                          }}
+                        >
+                          {result.type === "sticky" ? (
+                            <StickyNote
+                              size={14}
+                              style={{
+                                color: "var(--text-secondary)",
+                                marginTop: 2,
+                                flexShrink: 0,
+                              }}
+                            />
+                          ) : (
+                            <FileText
+                              size={14}
+                              style={{
+                                color: "var(--text-secondary)",
+                                marginTop: 2,
+                                flexShrink: 0,
+                              }}
+                            />
+                          )}
+                          <span
                             style={{
-                              display: "flex",
-                              width: "100%",
-                              alignItems: "flex-start",
-                              gap: 12,
-                              padding: "10px 16px",
-                              textAlign: "left",
-                              border: "none",
-                              cursor: "pointer",
-                              backgroundColor: "transparent",
-                            }}
-                            onMouseEnter={(e) => {
-                              e.currentTarget.style.backgroundColor =
-                                "color-mix(in srgb, var(--text-primary) 4%, transparent)";
-                            }}
-                            onMouseLeave={(e) => {
-                              e.currentTarget.style.backgroundColor = "transparent";
+                              fontSize: 13,
+                              lineHeight: 1.6,
+                              color: "var(--text-primary)",
                             }}
                           >
-                            {result.type === "sticky" ? (
-                              <StickyNote
-                                size={14}
-                                style={{
-                                  color: "var(--text-secondary)",
-                                  marginTop: 2,
-                                  flexShrink: 0,
-                                }}
-                              />
-                            ) : (
-                              <FileText
-                                size={14}
-                                style={{
-                                  color: "var(--text-secondary)",
-                                  marginTop: 2,
-                                  flexShrink: 0,
-                                }}
-                              />
-                            )}
-                            <span
-                              style={{
-                                fontSize: 13,
-                                lineHeight: 1.6,
-                                color: "var(--text-primary)",
-                              }}
-                            >
-                              <HighlightedText
-                                text={getSnippet(result.text, query)}
-                                query={query}
-                              />
-                            </span>
-                          </button>
-                        ))}
-                      </div>
-                    ),
-                  )
+                            <HighlightedText text={getSnippet(result.text, query)} query={query} />
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  ))
                 )}
               </>
             )}

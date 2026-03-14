@@ -2,14 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useViewportUIStore } from "../store/viewportUIStore";
 import { useBoardStore } from "../store/boardStore";
 import { useToolStore } from "../store/toolStore";
-import {
-  X,
-  ChevronLeft,
-  ChevronRight,
-  ZoomIn,
-  ZoomOut,
-  Pointer,
-} from "lucide-react";
+import { X, ChevronLeft, ChevronRight, ZoomIn, ZoomOut, Pointer } from "lucide-react";
 
 const AUTO_HIDE_MS = 2000;
 const EDGE_THRESHOLD = 40; // px from screen edge to reveal bar

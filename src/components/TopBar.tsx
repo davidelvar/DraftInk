@@ -176,7 +176,10 @@ function ExportMenu() {
                 onChange={(e) => setTemplateName(e.target.value)}
                 onKeyDown={(e) => {
                   if (e.key === "Enter") handleSaveAsTemplate();
-                  if (e.key === "Escape") { setShowNameInput(false); setTemplateName(""); }
+                  if (e.key === "Escape") {
+                    setShowNameInput(false);
+                    setTemplateName("");
+                  }
                 }}
                 placeholder="Template name"
                 className="flex-1 rounded-md px-2 py-1.5 text-[13px] outline-none"
@@ -258,7 +261,6 @@ function ThemeToggle() {
     </Tooltip>
   );
 }
-
 
 function SettingsButton() {
   const [open, setOpen] = useState(false);

@@ -7,7 +7,12 @@ import { useViewportUIStore } from "../store/viewportUIStore";
 import { useSearchStore } from "../store/searchStore";
 import { exportPNG } from "../utils/export";
 import { generateId } from "../utils/id";
-import { insertImageElement, binaryToDataUrl, mimeTypeFromPath, IMAGE_EXTENSIONS } from "../utils/image";
+import {
+  insertImageElement,
+  binaryToDataUrl,
+  mimeTypeFromPath,
+  IMAGE_EXTENSIONS,
+} from "../utils/image";
 import { invoke } from "@tauri-apps/api/core";
 import { open } from "@tauri-apps/plugin-dialog";
 import type { CanvasElement } from "../types/document";

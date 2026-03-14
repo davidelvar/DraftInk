@@ -156,10 +156,7 @@ function getControlPoint(pt: Point, anchor: AnchorPosition | undefined, offset: 
 /**
  * Compute the bounding box of a connector element by resolving its endpoints.
  */
-export function getConnectorBounds(
-  connector: ConnectorElement,
-  elements: CanvasElement[],
-): Bounds {
+export function getConnectorBounds(connector: ConnectorElement, elements: CanvasElement[]): Bounds {
   const sourceEl = elements.find((el) => el.id === connector.sourceId);
   const targetEl = elements.find((el) => el.id === connector.targetId);
 
@@ -280,8 +277,10 @@ function hitTestBezierPath(
   for (let i = 1; i <= steps; i++) {
     const t = i / steps;
     const mt = 1 - t;
-    const x = mt * mt * mt * p0.x + 3 * mt * mt * t * p1.x + 3 * mt * t * t * p2.x + t * t * t * p3.x;
-    const y = mt * mt * mt * p0.y + 3 * mt * mt * t * p1.y + 3 * mt * t * t * p2.y + t * t * t * p3.y;
+    const x =
+      mt * mt * mt * p0.x + 3 * mt * mt * t * p1.x + 3 * mt * t * t * p2.x + t * t * t * p3.x;
+    const y =
+      mt * mt * mt * p0.y + 3 * mt * mt * t * p1.y + 3 * mt * t * t * p2.y + t * t * t * p3.y;
 
     if (distToSegmentSq(cx, cy, prevX, prevY, x, y) <= tolSq) {
       return true;

@@ -64,13 +64,17 @@ export const useToolStore = create<ToolState>()((set) => ({
   stickyColor: "#fef08a",
   connectorStyle: "straight" as ConnectorPathStyle,
 
-  setTool: (tool) => set((s) => ({
-    activeTool: tool,
-    // Auto-adjust opacity defaults when switching to/from highlighter
-    strokeOpacity: tool === "highlighter" && s.activeTool !== "highlighter" ? 0.35
-      : tool !== "highlighter" && s.activeTool === "highlighter" ? 1
-      : s.strokeOpacity,
-  })),
+  setTool: (tool) =>
+    set((s) => ({
+      activeTool: tool,
+      // Auto-adjust opacity defaults when switching to/from highlighter
+      strokeOpacity:
+        tool === "highlighter" && s.activeTool !== "highlighter"
+          ? 0.35
+          : tool !== "highlighter" && s.activeTool === "highlighter"
+            ? 1
+            : s.strokeOpacity,
+    })),
   setStrokeColor: (color) => set({ strokeColor: color }),
   setStrokeWidth: (width) => set({ strokeWidth: width }),
   setFillColor: (color) => set({ fillColor: color }),

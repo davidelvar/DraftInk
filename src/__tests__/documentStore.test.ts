@@ -119,11 +119,9 @@ describe("documentStore", () => {
         targetAnchor: "left",
         pathStyle: "straight",
       };
-      useDocumentStore.getState().addElements([
-        makeRect({ id: "r1" }),
-        makeRect({ id: "r2" }),
-        conn,
-      ]);
+      useDocumentStore
+        .getState()
+        .addElements([makeRect({ id: "r1" }), makeRect({ id: "r2" }), conn]);
       expect(useDocumentStore.getState().board.elements).toHaveLength(3);
 
       useDocumentStore.getState().removeElements(["r1"]);
@@ -148,12 +146,14 @@ describe("documentStore", () => {
         targetAnchor: "left",
         pathStyle: "straight",
       };
-      useDocumentStore.getState().addElements([
-        makeRect({ id: "r1" }),
-        makeRect({ id: "r2" }),
-        makeRect({ id: "r3" }),
-        conn,
-      ]);
+      useDocumentStore
+        .getState()
+        .addElements([
+          makeRect({ id: "r1" }),
+          makeRect({ id: "r2" }),
+          makeRect({ id: "r3" }),
+          conn,
+        ]);
 
       useDocumentStore.getState().removeElements(["r3"]);
       const remaining = useDocumentStore.getState().board.elements;

@@ -273,8 +273,8 @@ export default function TemplateGallery({
 }) {
   const [customTemplates, setCustomTemplates] = useState<CustomTemplate[]>([]);
   const [customBoards, setCustomBoards] = useState<Map<string, Board>>(new Map());
-  const [builtInBoards] = useState(() =>
-    new Map(BUILT_IN_TEMPLATES.map((t) => [t.id, boardFromTemplate(t)])),
+  const [builtInBoards] = useState(
+    () => new Map(BUILT_IN_TEMPLATES.map((t) => [t.id, boardFromTemplate(t)])),
   );
   const backdropRef = useRef<HTMLDivElement>(null);
 
@@ -283,9 +283,10 @@ export default function TemplateGallery({
   // Load custom templates from disk
   const loadCustomTemplates = useCallback(async () => {
     try {
-      const files = await invoke<Array<{ path: string; name: string; last_modified: number }>>(
-        "list_template_files",
-      );
+      const files =
+        await invoke<Array<{ path: string; name: string; last_modified: number }>>(
+          "list_template_files",
+        );
       setCustomTemplates(
         files.map((f) => ({ name: f.name, filePath: f.path, lastModified: f.last_modified })),
       );
@@ -405,9 +406,7 @@ export default function TemplateGallery({
           }}
         >
           <div>
-            <h2
-              style={{ fontSize: 20, fontWeight: 700, color: "var(--text-primary)", margin: 0 }}
-            >
+            <h2 style={{ fontSize: 20, fontWeight: 700, color: "var(--text-primary)", margin: 0 }}>
               Template Gallery
             </h2>
             <p style={{ fontSize: 13, color: "var(--text-secondary)", margin: "4px 0 0" }}>
@@ -481,7 +480,10 @@ export default function TemplateGallery({
                   marginBottom: 12,
                 }}
               >
-                <Download size={13} style={{ display: "inline", marginRight: 6, verticalAlign: "-2px" }} />
+                <Download
+                  size={13}
+                  style={{ display: "inline", marginRight: 6, verticalAlign: "-2px" }}
+                />
                 My Templates
               </h3>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 16 }}>

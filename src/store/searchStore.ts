@@ -58,10 +58,7 @@ interface SearchState {
 
 // ─── Helpers ────────────────────────────────────────────────────
 
-function extractTextMatches(
-  elements: CanvasElement[],
-  query: string,
-): SearchMatch[] {
+function extractTextMatches(elements: CanvasElement[], query: string): SearchMatch[] {
   if (!query) return [];
   const lower = query.toLowerCase();
   const matches: SearchMatch[] = [];
@@ -70,10 +67,8 @@ function extractTextMatches(
     if (el.type === "text" || el.type === "sticky") {
       const text = el.text;
       if (text.toLowerCase().includes(lower)) {
-        const cx =
-          el.position.x + ("size" in el ? el.size.width / 2 : 0);
-        const cy =
-          el.position.y + ("size" in el ? el.size.height / 2 : 0);
+        const cx = el.position.x + ("size" in el ? el.size.width / 2 : 0);
+        const cy = el.position.y + ("size" in el ? el.size.height / 2 : 0);
         matches.push({
           elementId: el.id,
           text,
@@ -143,8 +138,7 @@ export const useSearchStore = create<SearchState>()((set, get) => ({
     const matches = extractTextMatches(elements, query);
     const highlightIds = new Set(matches.map((m) => m.elementId));
     const activeMatchIndex = matches.length > 0 ? 0 : -1;
-    const activeHighlightId =
-      activeMatchIndex >= 0 ? matches[activeMatchIndex].elementId : null;
+    const activeHighlightId = activeMatchIndex >= 0 ? matches[activeMatchIndex].elementId : null;
     set({ matches, highlightIds, activeMatchIndex, activeHighlightId });
   },
 
@@ -187,9 +181,10 @@ export const useSearchStore = create<SearchState>()((set, get) => ({
     set({ crossBoardLoading: true });
 
     try {
-      const files = await invoke<
-        Array<{ path: string; name: string; last_modified: number }>
-      >("list_board_files");
+      const files =
+        await invoke<Array<{ path: string; name: string; last_modified: number }>>(
+          "list_board_files",
+        );
 
       const results: CrossBoardMatch[] = [];
 

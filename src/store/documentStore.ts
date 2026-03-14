@@ -208,9 +208,7 @@ export const useDocumentStore = create<DocumentState>()((set, get) => ({
       return {
         board: touch({
           ...s.board,
-          elements: s.board.elements.map((el) =>
-            idSet.has(el.id) ? { ...el, zIndex: z-- } : el,
-          ),
+          elements: s.board.elements.map((el) => (idSet.has(el.id) ? { ...el, zIndex: z-- } : el)),
         }),
       };
     });

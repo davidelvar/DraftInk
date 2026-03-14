@@ -2,11 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useDocumentStore } from "../store/documentStore";
 import { useHistoryStore } from "../store/historyStore";
 import { generateId } from "../utils/id";
-import {
-  getClipboard,
-  setClipboard,
-  incrementPasteCount,
-} from "../hooks/useKeyboardShortcuts";
+import { getClipboard, setClipboard, incrementPasteCount } from "../hooks/useKeyboardShortcuts";
 
 export interface ContextMenuState {
   x: number;
@@ -91,9 +87,7 @@ export default function ContextMenu({
         action: () => {
           const s = useDocumentStore.getState();
           if (s.selectedIds.size === 0) return;
-          const selected = s.board.elements.filter((el) =>
-            s.selectedIds.has(el.id),
-          );
+          const selected = s.board.elements.filter((el) => s.selectedIds.has(el.id));
           setClipboard(selected.map((el) => structuredClone(el)));
           useHistoryStore.getState().pushSnapshot();
           s.removeElements([...s.selectedIds]);
@@ -107,9 +101,7 @@ export default function ContextMenu({
         action: () => {
           const s = useDocumentStore.getState();
           if (s.selectedIds.size === 0) return;
-          const selected = s.board.elements.filter((el) =>
-            s.selectedIds.has(el.id),
-          );
+          const selected = s.board.elements.filter((el) => s.selectedIds.has(el.id));
           setClipboard(selected.map((el) => structuredClone(el)));
           onClose();
         },
@@ -145,9 +137,7 @@ export default function ContextMenu({
           const s = useDocumentStore.getState();
           if (s.selectedIds.size === 0) return;
           useHistoryStore.getState().pushSnapshot();
-          const selected = s.board.elements.filter((el) =>
-            s.selectedIds.has(el.id),
-          );
+          const selected = s.board.elements.filter((el) => s.selectedIds.has(el.id));
           const newElements = selected.map((el) => ({
             ...structuredClone(el),
             id: generateId(),
@@ -333,8 +323,7 @@ export default function ContextMenu({
               }
             }}
             onMouseLeave={(e) => {
-              (e.currentTarget as HTMLElement).style.backgroundColor =
-                "transparent";
+              (e.currentTarget as HTMLElement).style.backgroundColor = "transparent";
             }}
           >
             <span>{item.label}</span>

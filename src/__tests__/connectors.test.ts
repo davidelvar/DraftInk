@@ -6,11 +6,7 @@ import {
   getConnectorBounds,
   hitTestConnector,
 } from "../canvas/connectors";
-import type {
-  RectangleElement,
-  ConnectorElement,
-  CanvasElement,
-} from "../types/document";
+import type { RectangleElement, ConnectorElement, CanvasElement } from "../types/document";
 import { DEFAULT_STROKE, DEFAULT_FILL } from "../types/document";
 
 function makeRect(overrides: Partial<RectangleElement> = {}): RectangleElement {
@@ -49,8 +45,16 @@ function makeConnector(overrides: Partial<ConnectorElement> = {}): ConnectorElem
   };
 }
 
-const rectA = makeRect({ id: "rect-1", position: { x: 100, y: 100 }, size: { width: 200, height: 100 } });
-const rectB = makeRect({ id: "rect-2", position: { x: 500, y: 100 }, size: { width: 200, height: 100 } });
+const rectA = makeRect({
+  id: "rect-1",
+  position: { x: 100, y: 100 },
+  size: { width: 200, height: 100 },
+});
+const rectB = makeRect({
+  id: "rect-2",
+  position: { x: 500, y: 100 },
+  size: { width: 200, height: 100 },
+});
 const elements: CanvasElement[] = [rectA, rectB];
 
 // ─── getAnchorPoint ────────────────────────────────────────

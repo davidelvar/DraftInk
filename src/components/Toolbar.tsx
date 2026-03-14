@@ -665,7 +665,16 @@ function ConnectorStylePicker({
 
 function ConnectorStyleIcon({ style, size = 16 }: { style: ConnectorPathStyle; size?: number }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 16 16"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       {style === "straight" && <line x1="2" y1="14" x2="14" y2="2" />}
       {style === "elbow" && <polyline points="2,14 2,2 14,2" />}
       {style === "curved" && <path d="M2,14 C2,6 14,10 14,2" />}
@@ -761,373 +770,385 @@ export default function Toolbar() {
         <PenTool size={20} />
       </button>
 
-    <div
-      className={`absolute ${toolbarPosition === "left" ? "left-3" : "right-3"} top-1/2 z-40 flex -translate-y-1/2 flex-col items-center rounded-xl py-2.5 shadow-lg transition-all ${toolbarCollapsed ? "pointer-events-none scale-90 opacity-0 md:pointer-events-auto md:scale-100 md:opacity-100" : ""}`}
-      style={{
-        backgroundColor: "var(--bg-secondary)",
-        border: "1px solid var(--border)",
-      }}
-    >
-      {/* Collapse button — visible on narrow screens when toolbar is open */}
-      <button
-        onClick={() => setToolbarCollapsed(true)}
-        className="mb-1 flex h-8 w-8 items-center justify-center rounded-lg transition-colors md:hidden"
-        style={{ color: "var(--text-secondary)" }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.backgroundColor =
-            "color-mix(in srgb, var(--text-primary) 8%, transparent)";
+      <div
+        className={`absolute ${toolbarPosition === "left" ? "left-3" : "right-3"} top-1/2 z-40 flex -translate-y-1/2 flex-col items-center rounded-xl py-2.5 shadow-lg transition-all ${toolbarCollapsed ? "pointer-events-none scale-90 opacity-0 md:pointer-events-auto md:scale-100 md:opacity-100" : ""}`}
+        style={{
+          backgroundColor: "var(--bg-secondary)",
+          border: "1px solid var(--border)",
         }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.backgroundColor = "transparent";
-        }}
-        aria-label="Collapse toolbar"
       >
-        <ChevronRight size={14} style={{ transform: toolbarPosition === "left" ? "rotate(180deg)" : "none" }} />
-      </button>
-      {/* === Drawing tools === */}
-      <div className="flex flex-col items-center gap-1.5 px-2">
-        {visibleTools.has("select") && (
-          <ToolButton
-            active={activeTool === "select"}
-            onClick={() => setTool("select")}
-            label="Select"
-            shortcut="V"
-            tooltipSide={tipSide}
-          >
-            <MousePointer2 size={20} />
-          </ToolButton>
-        )}
-
-        {visibleTools.has("hand") && (
-          <ToolButton
-            active={activeTool === "hand"}
-            onClick={() => setTool("hand")}
-            label="Hand"
-            tooltipSide={tipSide}
-          >
-            <Hand size={20} />
-          </ToolButton>
-        )}
-
-        {visibleTools.has("pen") && (
-          <ToolButton
-            active={activeTool === "pen"}
-            onClick={() => setTool("pen")}
-            label="Pen"
-            shortcut="P"
-            tooltipSide={tipSide}
-          >
-            <Pen size={20} />
-          </ToolButton>
-        )}
-
-        {visibleTools.has("eraser") && (
-          <ToolButton
-            active={activeTool === "eraser"}
-            onClick={() => setTool("eraser")}
-            label="Eraser"
-            shortcut="E"
-            tooltipSide={tipSide}
-          >
-            <Eraser size={20} />
-          </ToolButton>
-        )}
-
-        {visibleTools.has("highlighter") && (
-          <ToolButton
-            active={activeTool === "highlighter"}
-            onClick={() => setTool("highlighter")}
-            label="Highlighter"
-            shortcut="H"
-            tooltipSide={tipSide}
-          >
-            <Highlighter size={20} />
-          </ToolButton>
-        )}
-
-        {visibleTools.has("text") && (
-          <ToolButton
-            active={activeTool === "text"}
-            onClick={() => setTool("text")}
-            label="Text"
-            shortcut="T"
-            tooltipSide={tipSide}
-          >
-            <Type size={20} />
-          </ToolButton>
-        )}
-
-        {/* Sticky Note tool */}
-        {visibleTools.has("sticky") && (
-          <div className="relative">
+        {/* Collapse button — visible on narrow screens when toolbar is open */}
+        <button
+          onClick={() => setToolbarCollapsed(true)}
+          className="mb-1 flex h-8 w-8 items-center justify-center rounded-lg transition-colors md:hidden"
+          style={{ color: "var(--text-secondary)" }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor =
+              "color-mix(in srgb, var(--text-primary) 8%, transparent)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = "transparent";
+          }}
+          aria-label="Collapse toolbar"
+        >
+          <ChevronRight
+            size={14}
+            style={{ transform: toolbarPosition === "left" ? "rotate(180deg)" : "none" }}
+          />
+        </button>
+        {/* === Drawing tools === */}
+        <div className="flex flex-col items-center gap-1.5 px-2">
+          {visibleTools.has("select") && (
             <ToolButton
-              active={activeTool === "sticky"}
-              onClick={() => {
-                setTool("sticky");
-                setShowStickyColors((v) => !v);
-              }}
-              label="Sticky Note"
-              shortcut="N"
-              hasSubmenu
+              active={activeTool === "select"}
+              onClick={() => setTool("select")}
+              label="Select"
+              shortcut="V"
               tooltipSide={tipSide}
             >
-              <StickyNote size={20} />
+              <MousePointer2 size={20} />
             </ToolButton>
-            {showStickyColors && (
-              <StickyColorPicker
-                color={stickyColor}
-                onChange={(c) => {
-                  setStickyColor(c);
+          )}
+
+          {visibleTools.has("hand") && (
+            <ToolButton
+              active={activeTool === "hand"}
+              onClick={() => setTool("hand")}
+              label="Hand"
+              tooltipSide={tipSide}
+            >
+              <Hand size={20} />
+            </ToolButton>
+          )}
+
+          {visibleTools.has("pen") && (
+            <ToolButton
+              active={activeTool === "pen"}
+              onClick={() => setTool("pen")}
+              label="Pen"
+              shortcut="P"
+              tooltipSide={tipSide}
+            >
+              <Pen size={20} />
+            </ToolButton>
+          )}
+
+          {visibleTools.has("eraser") && (
+            <ToolButton
+              active={activeTool === "eraser"}
+              onClick={() => setTool("eraser")}
+              label="Eraser"
+              shortcut="E"
+              tooltipSide={tipSide}
+            >
+              <Eraser size={20} />
+            </ToolButton>
+          )}
+
+          {visibleTools.has("highlighter") && (
+            <ToolButton
+              active={activeTool === "highlighter"}
+              onClick={() => setTool("highlighter")}
+              label="Highlighter"
+              shortcut="H"
+              tooltipSide={tipSide}
+            >
+              <Highlighter size={20} />
+            </ToolButton>
+          )}
+
+          {visibleTools.has("text") && (
+            <ToolButton
+              active={activeTool === "text"}
+              onClick={() => setTool("text")}
+              label="Text"
+              shortcut="T"
+              tooltipSide={tipSide}
+            >
+              <Type size={20} />
+            </ToolButton>
+          )}
+
+          {/* Sticky Note tool */}
+          {visibleTools.has("sticky") && (
+            <div className="relative">
+              <ToolButton
+                active={activeTool === "sticky"}
+                onClick={() => {
                   setTool("sticky");
+                  setShowStickyColors((v) => !v);
                 }}
-                onClose={() => setShowStickyColors(false)}
-              />
-            )}
-          </div>
-        )}
-
-        {/* Shape tool with submenu */}
-        {anyShapeVisible && (
-          <div className="relative">
-            <ToolButton
-              active={SHAPE_TOOLS.has(activeTool)}
-              onClick={() => {
-                if (!SHAPE_TOOLS.has(activeTool)) {
-                  handleShapeSelect(lastShape);
-                }
-                setShowShapes((v) => !v);
-              }}
-              label={activeShapeIcon.label}
-              shortcut={activeShapeIcon.shortcut}
-              hasSubmenu
-              tooltipSide={tipSide}
-            >
-              <activeShapeIcon.icon size={20} />
-            </ToolButton>
-            {showShapes && (
-              <ShapeSubmenu
-                activeTool={activeTool}
-                onSelect={handleShapeSelect}
-                onClose={() => setShowShapes(false)}
-              />
-            )}
-          </div>
-        )}
-
-        {/* Connector tool */}
-        {visibleTools.has("connector") && (
-          <div className="relative">
-            <ToolButton
-              active={activeTool === "connector"}
-              onClick={() => {
-                setTool("connector");
-                setShowConnectorStyles((v) => !v);
-              }}
-              label="Connector"
-              shortcut="C"
-              hasSubmenu
-              tooltipSide={tipSide}
-            >
-              <Cable size={20} />
-            </ToolButton>
-            {showConnectorStyles && (
-              <ConnectorStylePicker
-                style={connectorStyle}
-                onChange={(s) => {
-                  setConnectorStyle(s);
-                  setTool("connector");
-                }}
-                onClose={() => setShowConnectorStyles(false)}
-              />
-            )}
-          </div>
-        )}
-
-        {/* Insert Image */}
-        {visibleTools.has("image") && (
-          <ToolButton
-            onClick={handleInsertImage}
-            label="Insert Image"
-            shortcut="Ctrl+Shift+I"
-            tooltipSide={tipSide}
-          >
-            <ImagePlus size={20} />
-          </ToolButton>
-        )}
-      </div>
-
-      <Separator />
-
-      {/* === Color picker === */}
-      <div className="flex flex-col items-center px-2">
-        <div className="relative">
-          <Tooltip text="Stroke Color" side={tipSide}>
-            <button
-              onClick={() => setShowColorPicker((v) => !v)}
-              className="relative flex h-11 w-11 items-center justify-center rounded-lg transition-colors"
-              style={{
-                backgroundColor: showColorPicker
-                  ? "color-mix(in srgb, var(--text-primary) 8%, transparent)"
-                  : "transparent",
-              }}
-              onMouseEnter={(e) => {
-                if (!showColorPicker)
-                  e.currentTarget.style.backgroundColor =
-                    "color-mix(in srgb, var(--text-primary) 8%, transparent)";
-              }}
-              onMouseLeave={(e) => {
-                if (!showColorPicker) e.currentTarget.style.backgroundColor = "transparent";
-              }}
-              aria-label="Stroke Color"
-            >
-              <div
-                className="h-6 w-6 rounded-full"
-                style={{
-                  backgroundColor: strokeColor,
-                  border: "2px solid var(--border)",
-                }}
-              />
-              <span
-                style={{
-                  position: "absolute",
-                  right: -1,
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  opacity: 0.6,
-                  color: "var(--text-secondary)",
-                }}
+                label="Sticky Note"
+                shortcut="N"
+                hasSubmenu
+                tooltipSide={tipSide}
               >
-                <ChevronRight size={8} strokeWidth={2.5} />
-              </span>
-            </button>
-          </Tooltip>
-          {showColorPicker && (
-            <ColorPicker
-              color={strokeColor}
-              onChange={(c) => setStrokeColor(c)}
-              onClose={() => setShowColorPicker(false)}
-            />
-          )}
-        </div>
-
-        {/* === Stroke width === */}
-        <div className="relative">
-          <Tooltip text="Stroke Width" side={tipSide}>
-            <button
-              onClick={() => setShowStrokeWidth((v) => !v)}
-              className="relative flex h-11 w-11 items-center justify-center rounded-lg transition-colors"
-              style={{
-                backgroundColor: showStrokeWidth
-                  ? "color-mix(in srgb, var(--text-primary) 8%, transparent)"
-                  : "transparent",
-              }}
-              onMouseEnter={(e) => {
-                if (!showStrokeWidth)
-                  e.currentTarget.style.backgroundColor =
-                    "color-mix(in srgb, var(--text-primary) 8%, transparent)";
-              }}
-              onMouseLeave={(e) => {
-                if (!showStrokeWidth) e.currentTarget.style.backgroundColor = "transparent";
-              }}
-              aria-label="Stroke Width"
-            >
-              <svg width="20" height="20" viewBox="0 0 20 20">
-                <line
-                  x1="3"
-                  y1="10"
-                  x2="17"
-                  y2="10"
-                  stroke="currentColor"
-                  strokeWidth={Math.max(1, Math.min(strokeWidth, 6))}
-                  strokeLinecap="round"
-                  style={{ color: "var(--text-secondary)" }}
+                <StickyNote size={20} />
+              </ToolButton>
+              {showStickyColors && (
+                <StickyColorPicker
+                  color={stickyColor}
+                  onChange={(c) => {
+                    setStickyColor(c);
+                    setTool("sticky");
+                  }}
+                  onClose={() => setShowStickyColors(false)}
                 />
-              </svg>
-              <span
-                style={{
-                  position: "absolute",
-                  right: -1,
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  opacity: 0.6,
-                  color: "var(--text-secondary)",
+              )}
+            </div>
+          )}
+
+          {/* Shape tool with submenu */}
+          {anyShapeVisible && (
+            <div className="relative">
+              <ToolButton
+                active={SHAPE_TOOLS.has(activeTool)}
+                onClick={() => {
+                  if (!SHAPE_TOOLS.has(activeTool)) {
+                    handleShapeSelect(lastShape);
+                  }
+                  setShowShapes((v) => !v);
                 }}
+                label={activeShapeIcon.label}
+                shortcut={activeShapeIcon.shortcut}
+                hasSubmenu
+                tooltipSide={tipSide}
               >
-                <ChevronRight size={8} strokeWidth={2.5} />
-              </span>
-            </button>
-          </Tooltip>
-          {showStrokeWidth && (
-            <StrokeWidthPopover
-              width={strokeWidth}
-              onChange={(w) => setStrokeWidth(w)}
-              onClose={() => setShowStrokeWidth(false)}
-            />
+                <activeShapeIcon.icon size={20} />
+              </ToolButton>
+              {showShapes && (
+                <ShapeSubmenu
+                  activeTool={activeTool}
+                  onSelect={handleShapeSelect}
+                  onClose={() => setShowShapes(false)}
+                />
+              )}
+            </div>
+          )}
+
+          {/* Connector tool */}
+          {visibleTools.has("connector") && (
+            <div className="relative">
+              <ToolButton
+                active={activeTool === "connector"}
+                onClick={() => {
+                  setTool("connector");
+                  setShowConnectorStyles((v) => !v);
+                }}
+                label="Connector"
+                shortcut="C"
+                hasSubmenu
+                tooltipSide={tipSide}
+              >
+                <Cable size={20} />
+              </ToolButton>
+              {showConnectorStyles && (
+                <ConnectorStylePicker
+                  style={connectorStyle}
+                  onChange={(s) => {
+                    setConnectorStyle(s);
+                    setTool("connector");
+                  }}
+                  onClose={() => setShowConnectorStyles(false)}
+                />
+              )}
+            </div>
+          )}
+
+          {/* Insert Image */}
+          {visibleTools.has("image") && (
+            <ToolButton
+              onClick={handleInsertImage}
+              label="Insert Image"
+              shortcut="Ctrl+Shift+I"
+              tooltipSide={tipSide}
+            >
+              <ImagePlus size={20} />
+            </ToolButton>
           )}
         </div>
 
-        {/* === Opacity slider (pen, highlighter, shapes) === */}
-        {(activeTool === "pen" || activeTool === "highlighter" || SHAPE_TOOLS.has(activeTool)) && (
-          <div className="flex flex-col items-center gap-1 py-1 px-2">
-            <Tooltip text={`Opacity: ${Math.round(strokeOpacity * 100)}%`} side={tipSide}>
-              <input
-                type="range"
-                min={10}
-                max={100}
-                value={Math.round(strokeOpacity * 100)}
-                onChange={(e) => setStrokeOpacity(Number(e.target.value) / 100)}
-                className="h-20 cursor-pointer accent-blue-500"
-                style={{
-                  writingMode: "vertical-lr",
-                  direction: "rtl",
-                  width: "20px",
-                }}
-                aria-label="Stroke Opacity"
-              />
-            </Tooltip>
-            <span
-              className="text-[10px] select-none"
-              style={{ color: "var(--text-secondary)" }}
-            >
-              {Math.round(strokeOpacity * 100)}%
-            </span>
-          </div>
-        )}
+        <Separator />
 
-        {/* === Pressure sensitivity toggle (pen only) === */}
-        {activeTool === "pen" && (
-          <div className="flex flex-col items-center px-2 py-1">
-            <Tooltip text={pressureSensitivity ? "Pressure: On" : "Pressure: Off"} side={tipSide}>
+        {/* === Color picker === */}
+        <div className="flex flex-col items-center px-2">
+          <div className="relative">
+            <Tooltip text="Stroke Color" side={tipSide}>
               <button
-                onClick={() => setPressureSensitivity(!pressureSensitivity)}
-                className="flex h-11 w-11 items-center justify-center rounded-lg transition-colors"
+                onClick={() => setShowColorPicker((v) => !v)}
+                className="relative flex h-11 w-11 items-center justify-center rounded-lg transition-colors"
                 style={{
-                  backgroundColor: pressureSensitivity
-                    ? "var(--accent)"
+                  backgroundColor: showColorPicker
+                    ? "color-mix(in srgb, var(--text-primary) 8%, transparent)"
                     : "transparent",
-                  color: pressureSensitivity ? "#ffffff" : "var(--text-secondary)",
                 }}
                 onMouseEnter={(e) => {
-                  if (!pressureSensitivity)
+                  if (!showColorPicker)
                     e.currentTarget.style.backgroundColor =
                       "color-mix(in srgb, var(--text-primary) 8%, transparent)";
                 }}
                 onMouseLeave={(e) => {
-                  if (!pressureSensitivity)
-                    e.currentTarget.style.backgroundColor = "transparent";
+                  if (!showColorPicker) e.currentTarget.style.backgroundColor = "transparent";
                 }}
-                aria-label="Pressure Sensitivity"
+                aria-label="Stroke Color"
               >
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M4 16 Q6 14 8 10 Q10 6 12 5 Q14 4 16 4" strokeWidth="1" />
-                  <path d="M4 16 Q6 14 8 10 Q10 6 12 5 Q14 4 16 4" strokeWidth="3" opacity="0.3" />
-                </svg>
+                <div
+                  className="h-6 w-6 rounded-full"
+                  style={{
+                    backgroundColor: strokeColor,
+                    border: "2px solid var(--border)",
+                  }}
+                />
+                <span
+                  style={{
+                    position: "absolute",
+                    right: -1,
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    opacity: 0.6,
+                    color: "var(--text-secondary)",
+                  }}
+                >
+                  <ChevronRight size={8} strokeWidth={2.5} />
+                </span>
               </button>
             </Tooltip>
+            {showColorPicker && (
+              <ColorPicker
+                color={strokeColor}
+                onChange={(c) => setStrokeColor(c)}
+                onClose={() => setShowColorPicker(false)}
+              />
+            )}
           </div>
-        )}
+
+          {/* === Stroke width === */}
+          <div className="relative">
+            <Tooltip text="Stroke Width" side={tipSide}>
+              <button
+                onClick={() => setShowStrokeWidth((v) => !v)}
+                className="relative flex h-11 w-11 items-center justify-center rounded-lg transition-colors"
+                style={{
+                  backgroundColor: showStrokeWidth
+                    ? "color-mix(in srgb, var(--text-primary) 8%, transparent)"
+                    : "transparent",
+                }}
+                onMouseEnter={(e) => {
+                  if (!showStrokeWidth)
+                    e.currentTarget.style.backgroundColor =
+                      "color-mix(in srgb, var(--text-primary) 8%, transparent)";
+                }}
+                onMouseLeave={(e) => {
+                  if (!showStrokeWidth) e.currentTarget.style.backgroundColor = "transparent";
+                }}
+                aria-label="Stroke Width"
+              >
+                <svg width="20" height="20" viewBox="0 0 20 20">
+                  <line
+                    x1="3"
+                    y1="10"
+                    x2="17"
+                    y2="10"
+                    stroke="currentColor"
+                    strokeWidth={Math.max(1, Math.min(strokeWidth, 6))}
+                    strokeLinecap="round"
+                    style={{ color: "var(--text-secondary)" }}
+                  />
+                </svg>
+                <span
+                  style={{
+                    position: "absolute",
+                    right: -1,
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    opacity: 0.6,
+                    color: "var(--text-secondary)",
+                  }}
+                >
+                  <ChevronRight size={8} strokeWidth={2.5} />
+                </span>
+              </button>
+            </Tooltip>
+            {showStrokeWidth && (
+              <StrokeWidthPopover
+                width={strokeWidth}
+                onChange={(w) => setStrokeWidth(w)}
+                onClose={() => setShowStrokeWidth(false)}
+              />
+            )}
+          </div>
+
+          {/* === Opacity slider (pen, highlighter, shapes) === */}
+          {(activeTool === "pen" ||
+            activeTool === "highlighter" ||
+            SHAPE_TOOLS.has(activeTool)) && (
+            <div className="flex flex-col items-center gap-1 py-1 px-2">
+              <Tooltip text={`Opacity: ${Math.round(strokeOpacity * 100)}%`} side={tipSide}>
+                <input
+                  type="range"
+                  min={10}
+                  max={100}
+                  value={Math.round(strokeOpacity * 100)}
+                  onChange={(e) => setStrokeOpacity(Number(e.target.value) / 100)}
+                  className="h-20 cursor-pointer accent-blue-500"
+                  style={{
+                    writingMode: "vertical-lr",
+                    direction: "rtl",
+                    width: "20px",
+                  }}
+                  aria-label="Stroke Opacity"
+                />
+              </Tooltip>
+              <span className="text-[10px] select-none" style={{ color: "var(--text-secondary)" }}>
+                {Math.round(strokeOpacity * 100)}%
+              </span>
+            </div>
+          )}
+
+          {/* === Pressure sensitivity toggle (pen only) === */}
+          {activeTool === "pen" && (
+            <div className="flex flex-col items-center px-2 py-1">
+              <Tooltip text={pressureSensitivity ? "Pressure: On" : "Pressure: Off"} side={tipSide}>
+                <button
+                  onClick={() => setPressureSensitivity(!pressureSensitivity)}
+                  className="flex h-11 w-11 items-center justify-center rounded-lg transition-colors"
+                  style={{
+                    backgroundColor: pressureSensitivity ? "var(--accent)" : "transparent",
+                    color: pressureSensitivity ? "#ffffff" : "var(--text-secondary)",
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!pressureSensitivity)
+                      e.currentTarget.style.backgroundColor =
+                        "color-mix(in srgb, var(--text-primary) 8%, transparent)";
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!pressureSensitivity) e.currentTarget.style.backgroundColor = "transparent";
+                  }}
+                  aria-label="Pressure Sensitivity"
+                >
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M4 16 Q6 14 8 10 Q10 6 12 5 Q14 4 16 4" strokeWidth="1" />
+                    <path
+                      d="M4 16 Q6 14 8 10 Q10 6 12 5 Q14 4 16 4"
+                      strokeWidth="3"
+                      opacity="0.3"
+                    />
+                  </svg>
+                </button>
+              </Tooltip>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
     </>
   );
 }

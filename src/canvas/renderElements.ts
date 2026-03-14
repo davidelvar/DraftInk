@@ -51,7 +51,11 @@ function hasPressureData(points: FreehandElement["points"]): boolean {
  * Compute the width at a single point given its pressure, base width,
  * and whether pressure sensitivity is on.
  */
-function pressureWidth(pressure: number | undefined, baseWidth: number, usePressure: boolean): number {
+function pressureWidth(
+  pressure: number | undefined,
+  baseWidth: number,
+  usePressure: boolean,
+): number {
   if (!usePressure) return baseWidth;
   const p = pressure ?? 0.5;
   // Map pressure [0..1] → width [0.25 .. 2.0] × baseWidth, centred at 1× for p=0.5
@@ -74,9 +78,10 @@ function drawVariableWidthPath(
   lod: number,
 ): void {
   const step = lod;
-  const src = step > 1
-    ? points.filter((_, i) => i === 0 || i === points.length - 1 || i % step === 0)
-    : points;
+  const src =
+    step > 1
+      ? points.filter((_, i) => i === 0 || i === points.length - 1 || i % step === 0)
+      : points;
 
   if (src.length < 2) {
     const r = pressureWidth(src[0]?.pressure, baseWidth, true) / 2;
@@ -137,7 +142,13 @@ function drawVariableWidthPath(
   ctx.arc(posX + src[0].x, posY + src[0].y, Math.max(startR, 0.5), 0, Math.PI * 2);
   ctx.fill();
   ctx.beginPath();
-  ctx.arc(posX + src[src.length - 1].x, posY + src[src.length - 1].y, Math.max(endR, 0.5), 0, Math.PI * 2);
+  ctx.arc(
+    posX + src[src.length - 1].x,
+    posY + src[src.length - 1].y,
+    Math.max(endR, 0.5),
+    0,
+    Math.PI * 2,
+  );
   ctx.fill();
 }
 
@@ -189,12 +200,7 @@ function drawFreehandPath(
       const midX = (curr.x + next.x) / 2;
       const midY = (curr.y + next.y) / 2;
 
-      ctx.quadraticCurveTo(
-        posX + curr.x,
-        posY + curr.y,
-        posX + midX,
-        posY + midY,
-      );
+      ctx.quadraticCurveTo(posX + curr.x, posY + curr.y, posX + midX, posY + midY);
     }
 
     const last = lodPoints[lodPoints.length - 1];
@@ -214,7 +220,12 @@ function getHighlighterCanvas(w: number, h: number): HTMLCanvasElement {
   return _hlCanvas;
 }
 
-function renderFreehand(ctx: CanvasRenderingContext2D, el: FreehandElement, lod = 1, usePressure = false): void {
+function renderFreehand(
+  ctx: CanvasRenderingContext2D,
+  el: FreehandElement,
+  lod = 1,
+  usePressure = false,
+): void {
   const { points, position, stroke, isEraser, isHighlighter } = el;
   if (points.length === 0) return;
 
@@ -226,7 +237,10 @@ function renderFreehand(ctx: CanvasRenderingContext2D, el: FreehandElement, lod 
   } else if (isHighlighter) {
     // Flatten opacity: draw at full opacity on a temp canvas, then composite at target opacity.
     // Compute bounding box of the stroke in canvas-space.
-    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    let minX = Infinity,
+      minY = Infinity,
+      maxX = -Infinity,
+      maxY = -Infinity;
     for (const p of points) {
       const px = position.x + p.x;
       const py = position.y + p.y;
@@ -236,7 +250,10 @@ function renderFreehand(ctx: CanvasRenderingContext2D, el: FreehandElement, lod 
       if (py > maxY) maxY = py;
     }
     const pad = stroke.width + 2;
-    minX -= pad; minY -= pad; maxX += pad; maxY += pad;
+    minX -= pad;
+    minY -= pad;
+    maxX += pad;
+    maxY += pad;
     const bw = Math.ceil(maxX - minX);
     const bh = Math.ceil(maxY - minY);
 
@@ -244,14 +261,31 @@ function renderFreehand(ctx: CanvasRenderingContext2D, el: FreehandElement, lod 
       const hlCanvas = getHighlighterCanvas(bw, bh);
       const hlCtx = hlCanvas.getContext("2d")!;
       hlCtx.clearRect(0, 0, bw, bh);
-      drawFreehandPath(hlCtx, points, position.x - minX, position.y - minY, stroke.color, stroke.width, lod);
+      drawFreehandPath(
+        hlCtx,
+        points,
+        position.x - minX,
+        position.y - minY,
+        stroke.color,
+        stroke.width,
+        lod,
+      );
 
       ctx.globalAlpha = stroke.opacity;
       ctx.drawImage(hlCanvas, 0, 0, bw, bh, minX, minY, bw, bh);
     }
   } else {
     ctx.globalAlpha = stroke.opacity;
-    drawFreehandPath(ctx, points, position.x, position.y, stroke.color, stroke.width, lod, usePressure);
+    drawFreehandPath(
+      ctx,
+      points,
+      position.x,
+      position.y,
+      stroke.color,
+      stroke.width,
+      lod,
+      usePressure,
+    );
   }
 
   ctx.restore();
@@ -746,7 +780,10 @@ export function renderActiveStroke(
     drawStrokePath(ctx, points, "rgba(0,0,0,1)", width);
   } else if (isHighlighter) {
     // Flatten opacity via offscreen canvas
-    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    let minX = Infinity,
+      minY = Infinity,
+      maxX = -Infinity,
+      maxY = -Infinity;
     for (const p of points) {
       if (p.x < minX) minX = p.x;
       if (p.y < minY) minY = p.y;
@@ -754,7 +791,10 @@ export function renderActiveStroke(
       if (p.y > maxY) maxY = p.y;
     }
     const pad = width + 2;
-    minX -= pad; minY -= pad; maxX += pad; maxY += pad;
+    minX -= pad;
+    minY -= pad;
+    maxX += pad;
+    maxY += pad;
     const bw = Math.ceil(maxX - minX);
     const bh = Math.ceil(maxY - minY);
 
@@ -762,7 +802,7 @@ export function renderActiveStroke(
       const hlCanvas = getHighlighterCanvas(bw, bh);
       const hlCtx = hlCanvas.getContext("2d")!;
       hlCtx.clearRect(0, 0, bw, bh);
-      const shifted = points.map(p => ({ x: p.x - minX, y: p.y - minY }));
+      const shifted = points.map((p) => ({ x: p.x - minX, y: p.y - minY }));
       drawStrokePath(hlCtx, shifted, color, width);
 
       ctx.globalAlpha = highlighterOpacity;

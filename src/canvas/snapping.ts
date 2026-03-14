@@ -12,11 +12,7 @@ export function snapValueToGrid(value: number, gridSize: number): number {
 /**
  * Snap a position {x, y} to the nearest grid intersection.
  */
-export function snapPointToGrid(
-  x: number,
-  y: number,
-  gridSize: number,
-): { x: number; y: number } {
+export function snapPointToGrid(x: number, y: number, gridSize: number): { x: number; y: number } {
   return {
     x: snapValueToGrid(x, gridSize),
     y: snapValueToGrid(y, gridSize),
@@ -26,10 +22,7 @@ export function snapPointToGrid(
 /**
  * Snap element bounds to grid, returning the position delta to apply.
  */
-export function snapBoundsToGrid(
-  bounds: Bounds,
-  gridSize: number,
-): { dx: number; dy: number } {
+export function snapBoundsToGrid(bounds: Bounds, gridSize: number): { dx: number; dy: number } {
   // Snap the nearest edge/center to grid
   const snappedLeft = snapValueToGrid(bounds.x, gridSize);
   const snappedTop = snapValueToGrid(bounds.y, gridSize);

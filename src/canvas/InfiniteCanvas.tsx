@@ -9,7 +9,13 @@ import {
   setImageLoadCallback,
 } from "./renderElements";
 import type { ActiveShapeState, ShapeToolType } from "./renderElements";
-import { renderSelectionBox, renderLasso, renderAlignmentGuides, renderAnchorPoints, renderConnectorPreview } from "./renderSelection";
+import {
+  renderSelectionBox,
+  renderLasso,
+  renderAlignmentGuides,
+  renderAnchorPoints,
+  renderConnectorPreview,
+} from "./renderSelection";
 import { hitTestElement, hitTestHandle, getSelectionBounds, getElementBounds } from "./hitTest";
 import type { HandlePosition } from "./hitTest";
 import { hitTestAnchor, hitTestConnector, getConnectorBounds, getAnchorPoint } from "./connectors";
@@ -151,7 +157,14 @@ export default function InfiniteCanvas() {
       handlePanTo(pending.x, pending.y);
       useViewportUIStore.getState().setPendingPanTo(null);
     }
-  }, [handleToolbarZoom, handleResetZoom, handleGetViewportCenter, handleGetViewport, handlePanTo, handleGetCanvasSize]);
+  }, [
+    handleToolbarZoom,
+    handleResetZoom,
+    handleGetViewportCenter,
+    handleGetViewport,
+    handlePanTo,
+    handleGetCanvasSize,
+  ]);
 
   // --- Image load callback (trigger re-render when cached images finish loading) ---
   useEffect(() => {
@@ -327,17 +340,17 @@ export default function InfiniteCanvas() {
       // Render committed elements from the document store
       const elements = useDocumentStore.getState().board.elements;
       const editingId = textEditRef.current?.id;
-      const isEditingSticky = editingId && elements.find((el) => el.id === editingId)?.type === "sticky";
-      const elementsToRender = editingId && !isEditingSticky ? elements.filter((el) => el.id !== editingId) : elements;
+      const isEditingSticky =
+        editingId && elements.find((el) => el.id === editingId)?.type === "sticky";
+      const elementsToRender =
+        editingId && !isEditingSticky ? elements.filter((el) => el.id !== editingId) : elements;
 
       // Rebuild spatial index when elements change (reference check)
       if (elements !== lastElementVersionRef.current) {
         lastElementVersionRef.current = elements;
         const entries: QuadEntry[] = elements.map((el) => ({
           id: el.id,
-          bounds: el.type === "connector"
-            ? getConnectorBounds(el, elements)
-            : getElementBounds(el),
+          bounds: el.type === "connector" ? getConnectorBounds(el, elements) : getElementBounds(el),
         }));
         spatialIndexRef.current.rebuild(entries);
       }
@@ -447,10 +460,7 @@ export default function InfiniteCanvas() {
       }
 
       // Render alignment guides during drag/resize
-      if (
-        (isDraggingRef.current || isResizingRef.current) &&
-        activeGuidesRef.current.length > 0
-      ) {
+      if ((isDraggingRef.current || isResizingRef.current) && activeGuidesRef.current.length > 0) {
         renderAlignmentGuides(ctx, activeGuidesRef.current, viewport);
       }
 
@@ -822,7 +832,9 @@ export default function InfiniteCanvas() {
         useHistoryStore.getState().pushSnapshot();
         isDrawingRef.current = true;
         activeOriginRef.current = { x: canvasPos.x, y: canvasPos.y };
-        activePointsRef.current = [{ x: 0, y: 0, pressure: normalizePressure(e.pressure, e.pointerType) }];
+        activePointsRef.current = [
+          { x: 0, y: 0, pressure: normalizePressure(e.pressure, e.pointerType) },
+        ];
         activeColorRef.current = tool.strokeColor;
         activeWidthRef.current = tool.eraserWidth;
         activeIsEraserRef.current = true;
@@ -842,7 +854,11 @@ export default function InfiniteCanvas() {
       // Left button → draw (if pen or eraser tool) or shape
       if (e.button === 0) {
         const tool = useToolStore.getState();
-        if (tool.activeTool === "pen" || tool.activeTool === "eraser" || tool.activeTool === "highlighter") {
+        if (
+          tool.activeTool === "pen" ||
+          tool.activeTool === "eraser" ||
+          tool.activeTool === "highlighter"
+        ) {
           const isEraser = tool.activeTool === "eraser";
           const isHighlighter = tool.activeTool === "highlighter";
           const canvasPos = pointerToCanvas(e);
@@ -850,9 +866,15 @@ export default function InfiniteCanvas() {
           useHistoryStore.getState().pushSnapshot();
           isDrawingRef.current = true;
           activeOriginRef.current = { x: canvasPos.x, y: canvasPos.y };
-          activePointsRef.current = [{ x: 0, y: 0, pressure: normalizePressure(e.pressure, e.pointerType) }];
+          activePointsRef.current = [
+            { x: 0, y: 0, pressure: normalizePressure(e.pressure, e.pointerType) },
+          ];
           activeColorRef.current = themeAwareStroke(tool.strokeColor);
-          activeWidthRef.current = isEraser ? tool.eraserWidth : isHighlighter ? tool.highlighterWidth : tool.strokeWidth;
+          activeWidthRef.current = isEraser
+            ? tool.eraserWidth
+            : isHighlighter
+              ? tool.highlighterWidth
+              : tool.strokeWidth;
           activeIsEraserRef.current = isEraser;
           activeIsHighlighterRef.current = isHighlighter;
           activeOpacityRef.current = tool.strokeOpacity;
@@ -1727,7 +1749,11 @@ export default function InfiniteCanvas() {
   // ─── Clipboard paste (image from clipboard) ───────────────────
   useEffect(() => {
     const handlePaste = async (e: ClipboardEvent) => {
-      if (document.activeElement?.tagName === "TEXTAREA" || document.activeElement?.tagName === "INPUT") return;
+      if (
+        document.activeElement?.tagName === "TEXTAREA" ||
+        document.activeElement?.tagName === "INPUT"
+      )
+        return;
       const items = e.clipboardData?.items;
       if (!items) return;
 
@@ -1768,9 +1794,10 @@ export default function InfiniteCanvas() {
       for (let i = elements.length - 1; i >= 0; i--) {
         const el = elements[i];
         if (!el.visible) continue;
-        const hit = el.type === "connector"
-          ? hitTestConnector(el, elements, canvasPos.x, canvasPos.y)
-          : hitTestElement(el, canvasPos.x, canvasPos.y);
+        const hit =
+          el.type === "connector"
+            ? hitTestConnector(el, elements, canvasPos.x, canvasPos.y)
+            : hitTestElement(el, canvasPos.x, canvasPos.y);
         if (hit) {
           if (store.selectedIds.has(el.id)) {
             clickedSelected = true;
@@ -1826,11 +1853,7 @@ export default function InfiniteCanvas() {
 
     if (contentW <= 0 || contentH <= 0) return;
 
-    const fitZoom = Math.min(
-      availW / contentW,
-      availH / contentH,
-      MAX_ZOOM,
-    );
+    const fitZoom = Math.min(availW / contentW, availH / contentH, MAX_ZOOM);
     const clampedZoom = Math.max(MIN_ZOOM, Math.min(fitZoom, MAX_ZOOM));
 
     const centerX = (minX + maxX) / 2;
@@ -1932,7 +1955,8 @@ export default function InfiniteCanvas() {
   useEffect(() => {
     const unsub = useToolStore.subscribe((state) => {
       if (!canvasRef.current || isPanningRef.current || spaceHeldRef.current) return;
-      canvasRef.current.style.cursor = state.activeTool === "hand" ? "grab" : state.activeTool === "laser" ? "none" : "";
+      canvasRef.current.style.cursor =
+        state.activeTool === "hand" ? "grab" : state.activeTool === "laser" ? "none" : "";
       // Clear connector state when switching away from connector tool
       if (state.activeTool !== "connector") {
         connectorSourceRef.current = null;
@@ -1950,7 +1974,8 @@ export default function InfiniteCanvas() {
     // Set initial cursor
     if (canvasRef.current) {
       const initTool = useToolStore.getState().activeTool;
-      canvasRef.current.style.cursor = initTool === "hand" ? "grab" : initTool === "laser" ? "none" : "";
+      canvasRef.current.style.cursor =
+        initTool === "hand" ? "grab" : initTool === "laser" ? "none" : "";
     }
     return unsub;
   }, []);
@@ -2301,7 +2326,7 @@ export default function InfiniteCanvas() {
         </button>
         <div style={{ width: 1, height: 20, backgroundColor: "var(--border)" }} />
         <button
-          title="Bring Forward (Ctrl+])"  
+          title="Bring Forward (Ctrl+])"
           onMouseDown={(e) => {
             e.preventDefault();
             e.stopPropagation();

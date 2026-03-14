@@ -18,7 +18,7 @@ function getTauriBinaryPath(): string {
         "DraftInk.app",
         "Contents",
         "MacOS",
-        "DraftInk"
+        "DraftInk",
       );
     case "linux":
       return path.join(basePath, "draft-ink");

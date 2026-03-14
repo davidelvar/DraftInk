@@ -175,7 +175,17 @@ export default function Minimap() {
 
       // Draw element content from offscreen buffer
       if (elements.length > 0) {
-        ctx.drawImage(offscreen, 0, 0, offscreen.width, offscreen.height, 0, 0, MINIMAP_W, MINIMAP_H);
+        ctx.drawImage(
+          offscreen,
+          0,
+          0,
+          offscreen.width,
+          offscreen.height,
+          0,
+          0,
+          MINIMAP_W,
+          MINIMAP_H,
+        );
       }
 
       // Draw viewport rectangle

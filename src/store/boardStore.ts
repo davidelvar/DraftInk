@@ -188,14 +188,18 @@ export const useBoardStore = create<BoardState>()((set, get) => ({
 
       // Center viewport on template content
       if (elements.length > 0) {
-        let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+        let minX = Infinity,
+          minY = Infinity,
+          maxX = -Infinity,
+          maxY = -Infinity;
         for (const el of elements) {
           const ex = el.position.x;
           const ey = el.position.y;
           minX = Math.min(minX, ex);
           minY = Math.min(minY, ey);
           const s = "size" in el ? (el as { size: { width: number; height: number } }).size : null;
-          const ed = "endDelta" in el ? (el as { endDelta: { x: number; y: number } }).endDelta : null;
+          const ed =
+            "endDelta" in el ? (el as { endDelta: { x: number; y: number } }).endDelta : null;
           maxX = Math.max(maxX, ex + (s ? s.width : ed ? Math.abs(ed.x) : 0));
           maxY = Math.max(maxY, ey + (s ? s.height : ed ? Math.abs(ed.y) : 0));
         }

@@ -55,14 +55,7 @@ export function boardFromTemplate(template: TemplateDefinition): Board {
 
 const STICKY_COLORS = ["#fef08a", "#bbf7d0", "#bfdbfe", "#fecaca", "#e9d5ff", "#fed7aa"];
 
-function sticky(
-  x: number,
-  y: number,
-  text: string,
-  bg: string,
-  w = 200,
-  h = 150,
-): CanvasElement {
+function sticky(x: number, y: number, text: string, bg: string, w = 200, h = 150): CanvasElement {
   return {
     id: "",
     type: "sticky",
@@ -160,13 +153,7 @@ function ellipse(
   } as CanvasElement;
 }
 
-function arrow(
-  x: number,
-  y: number,
-  dx: number,
-  dy: number,
-  color?: string,
-): CanvasElement {
+function arrow(x: number, y: number, dx: number, dy: number, color?: string): CanvasElement {
   if (color === undefined) color = isDark() ? "#d1d5db" : "#1f2937";
   return {
     id: "",
@@ -181,13 +168,7 @@ function arrow(
   } as CanvasElement;
 }
 
-function line(
-  x: number,
-  y: number,
-  dx: number,
-  dy: number,
-  color?: string,
-): CanvasElement {
+function line(x: number, y: number, dx: number, dy: number, color?: string): CanvasElement {
   if (color === undefined) color = isDark() ? "#6b7280" : "#d1d5db";
   return {
     id: "",
@@ -216,7 +197,8 @@ const brainstorm: TemplateDefinition = {
   name: "Brainstorm",
   description: "Central topic with radiating ideas",
   buildElements: () => {
-    const cx = 0, cy = 0;
+    const cx = 0,
+      cy = 0;
     return [
       sticky(cx - 100, cy - 75, "Main Topic", "#fef08a", 200, 150),
       sticky(cx - 350, cy - 280, "Idea 1", STICKY_COLORS[1]),
@@ -240,7 +222,9 @@ const kanban: TemplateDefinition = {
   name: "Kanban Board",
   description: "Three columns: To Do, In Progress, Done",
   buildElements: () => {
-    const colW = 280, colH = 600, gap = 40;
+    const colW = 280,
+      colH = 600,
+      gap = 40;
     const startX = -((colW * 3 + gap * 2) / 2);
     const startY = -300;
     const cols = ["To Do", "In Progress", "Done"];
@@ -299,8 +283,10 @@ const swotAnalysis: TemplateDefinition = {
   name: "SWOT Analysis",
   description: "2×2 grid: Strengths, Weaknesses, Opportunities, Threats",
   buildElements: () => {
-    const cellW = 300, cellH = 250;
-    const ox = -(cellW), oy = -(cellH);
+    const cellW = 300,
+      cellH = 250;
+    const ox = -cellW,
+      oy = -cellH;
     const labels = ["Strengths", "Weaknesses", "Opportunities", "Threats"];
     const colors = ["#bbf7d0", "#fecaca", "#bfdbfe", "#fef08a"];
     const elements: CanvasElement[] = [];
@@ -329,7 +315,8 @@ const weeklyPlanner: TemplateDefinition = {
   description: "7-column grid for the week",
   buildElements: () => {
     const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-    const colW = 170, colH = 500;
+    const colW = 170,
+      colH = 500;
     const totalW = colW * 7;
     const startX = -(totalW / 2);
     const startY = -250;
@@ -353,7 +340,8 @@ const mindMap: TemplateDefinition = {
   name: "Mind Map",
   description: "Central node with branching topics",
   buildElements: () => {
-    const cx = 0, cy = 0;
+    const cx = 0,
+      cy = 0;
     const branches = [
       { label: "Branch A", x: -350, y: -200, color: "#bbf7d0" },
       { label: "Branch B", x: 200, y: -200, color: "#bfdbfe" },
@@ -370,12 +358,14 @@ const mindMap: TemplateDefinition = {
 
     branches.forEach((b) => {
       elements.push(sticky(b.x, b.y, b.label, b.color, 150, 80));
-      elements.push(arrow(
-        cx + (b.x > cx ? 75 : -75),
-        cy,
-        b.x - cx + (b.x > cx ? -75 : 150) + (b.x > cx ? 0 : 75),
-        b.y - cy + 40,
-      ));
+      elements.push(
+        arrow(
+          cx + (b.x > cx ? 75 : -75),
+          cy,
+          b.x - cx + (b.x > cx ? -75 : 150) + (b.x > cx ? 0 : 75),
+          b.y - cy + 40,
+        ),
+      );
     });
 
     return elements;
@@ -391,8 +381,10 @@ const wireframe: TemplateDefinition = {
     const p = palette();
 
     // Desktop frame
-    const dw = 600, dh = 400;
-    const dx = -350, dy = -250;
+    const dw = 600,
+      dh = 400;
+    const dx = -350,
+      dy = -250;
     elements.push(rect(dx, dy, dw, dh, "transparent", p.borderMedium, 2, 8));
     // Title bar
     elements.push(rect(dx, dy, dw, 32, p.surfaceMuted, p.border, 1, 0));
@@ -411,8 +403,10 @@ const wireframe: TemplateDefinition = {
     elements.push(text(dx + 195, dy + 250, "Button", 13, true, "#ffffff"));
 
     // Mobile frame
-    const mw = 180, mh = 360;
-    const mx = 320, my = -230;
+    const mw = 180,
+      mh = 360;
+    const mx = 320,
+      my = -230;
     elements.push(rect(mx, my, mw, mh, "transparent", p.borderMedium, 2, 16));
     // Status bar
     elements.push(rect(mx, my, mw, 24, p.surfaceMuted, p.border, 1, 0));

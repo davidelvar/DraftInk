@@ -162,232 +162,236 @@ export default function SettingsPanel({ onClose }: { onClose: () => void }) {
         <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
           {/* Left column: Toolbar Items */}
           <div style={{ flex: 1, minWidth: 260 }}>
-
-        {/* ── Toolbar Visibility ── */}
-        <div style={sectionTitle}>Toolbar Items</div>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6, marginBottom: 10 }}>
-          {(["select", "hand", "pen", "eraser", "text", "sticky"] as ToolbarItem[]).map((tool) => (
+            {/* ── Toolbar Visibility ── */}
+            <div style={sectionTitle}>Toolbar Items</div>
             <div
-              key={tool}
+              style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6, marginBottom: 10 }}
+            >
+              {(["select", "hand", "pen", "eraser", "text", "sticky"] as ToolbarItem[]).map(
+                (tool) => (
+                  <div
+                    key={tool}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      padding: "6px 10px",
+                      borderRadius: 8,
+                      cursor: "pointer",
+                    }}
+                    onClick={() => toggleToolVisibility(tool)}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor =
+                        "color-mix(in srgb, var(--text-primary) 6%, transparent)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = "transparent";
+                    }}
+                  >
+                    <span style={{ fontSize: 13, color: "var(--text-primary)" }}>
+                      {TOOL_LABELS[tool]}
+                    </span>
+                    <button
+                      style={toggleStyle(visibleTools.has(tool))}
+                      aria-label={`Toggle ${TOOL_LABELS[tool]}`}
+                    >
+                      <div style={toggleKnob(visibleTools.has(tool))} />
+                    </button>
+                  </div>
+                ),
+              )}
+            </div>
+
+            {/* ── Shapes group ── */}
+            <div style={{ ...sectionTitle, marginTop: 12 }}>Shapes</div>
+            <div
               style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                padding: "6px 10px",
-                borderRadius: 8,
-                cursor: "pointer",
-              }}
-              onClick={() => toggleToolVisibility(tool)}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor =
-                  "color-mix(in srgb, var(--text-primary) 6%, transparent)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = "transparent";
+                borderRadius: 10,
+                border: "1px solid var(--border)",
+                padding: "6px 0",
+                marginBottom: 10,
               }}
             >
-              <span style={{ fontSize: 13, color: "var(--text-primary)" }}>
-                {TOOL_LABELS[tool]}
-              </span>
-              <button
-                style={toggleStyle(visibleTools.has(tool))}
-                aria-label={`Toggle ${TOOL_LABELS[tool]}`}
-              >
-                <div style={toggleKnob(visibleTools.has(tool))} />
-              </button>
+              {(["rectangle", "ellipse", "line", "arrow"] as ToolbarItem[]).map((tool) => (
+                <div
+                  key={tool}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    padding: "6px 14px",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => toggleToolVisibility(tool)}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor =
+                      "color-mix(in srgb, var(--text-primary) 6%, transparent)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = "transparent";
+                  }}
+                >
+                  <span style={{ fontSize: 13, color: "var(--text-primary)" }}>
+                    {TOOL_LABELS[tool]}
+                  </span>
+                  <button
+                    style={toggleStyle(visibleTools.has(tool))}
+                    aria-label={`Toggle ${TOOL_LABELS[tool]}`}
+                  >
+                    <div style={toggleKnob(visibleTools.has(tool))} />
+                  </button>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
 
-        {/* ── Shapes group ── */}
-        <div style={{ ...sectionTitle, marginTop: 12 }}>Shapes</div>
-        <div
-          style={{
-            borderRadius: 10,
-            border: "1px solid var(--border)",
-            padding: "6px 0",
-            marginBottom: 10,
-          }}
-        >
-          {(["rectangle", "ellipse", "line", "arrow"] as ToolbarItem[]).map((tool) => (
+            {/* ── Actions ── */}
+            <div style={{ ...sectionTitle, marginTop: 12 }}>Actions</div>
             <div
-              key={tool}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                padding: "6px 14px",
-                cursor: "pointer",
-              }}
-              onClick={() => toggleToolVisibility(tool)}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor =
-                  "color-mix(in srgb, var(--text-primary) 6%, transparent)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = "transparent";
-              }}
+              style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6, marginBottom: 16 }}
             >
-              <span style={{ fontSize: 13, color: "var(--text-primary)" }}>
-                {TOOL_LABELS[tool]}
-              </span>
-              <button
-                style={toggleStyle(visibleTools.has(tool))}
-                aria-label={`Toggle ${TOOL_LABELS[tool]}`}
-              >
-                <div style={toggleKnob(visibleTools.has(tool))} />
-              </button>
+              {(["image"] as ToolbarItem[]).map((tool) => (
+                <div
+                  key={tool}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    padding: "6px 10px",
+                    borderRadius: 8,
+                    cursor: "pointer",
+                  }}
+                  onClick={() => toggleToolVisibility(tool)}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor =
+                      "color-mix(in srgb, var(--text-primary) 6%, transparent)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = "transparent";
+                  }}
+                >
+                  <span style={{ fontSize: 13, color: "var(--text-primary)" }}>
+                    {TOOL_LABELS[tool]}
+                  </span>
+                  <button
+                    style={toggleStyle(visibleTools.has(tool))}
+                    aria-label={`Toggle ${TOOL_LABELS[tool]}`}
+                  >
+                    <div style={toggleKnob(visibleTools.has(tool))} />
+                  </button>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-
-        {/* ── Actions ── */}
-        <div style={{ ...sectionTitle, marginTop: 12 }}>Actions</div>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6, marginBottom: 16 }}>
-          {(["image"] as ToolbarItem[]).map((tool) => (
-            <div
-              key={tool}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                padding: "6px 10px",
-                borderRadius: 8,
-                cursor: "pointer",
-              }}
-              onClick={() => toggleToolVisibility(tool)}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor =
-                  "color-mix(in srgb, var(--text-primary) 6%, transparent)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = "transparent";
-              }}
-            >
-              <span style={{ fontSize: 13, color: "var(--text-primary)" }}>
-                {TOOL_LABELS[tool]}
-              </span>
-              <button
-                style={toggleStyle(visibleTools.has(tool))}
-                aria-label={`Toggle ${TOOL_LABELS[tool]}`}
-              >
-                <div style={toggleKnob(visibleTools.has(tool))} />
-              </button>
-            </div>
-          ))}
-        </div>
-
           </div>
           {/* Right column: Font & Toolbar Position */}
           <div style={{ flex: 1, minWidth: 260 }}>
+            {/* ── Default Font ── */}
+            <div style={sectionTitle}>Default Font</div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 16 }}>
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                {FONT_FAMILIES.map((fam) => (
+                  <button
+                    key={fam}
+                    onClick={() => setDefaultFontFamily(fam)}
+                    style={{
+                      flex: "1 0 45%",
+                      padding: "8px 10px",
+                      borderRadius: 8,
+                      fontSize: 12,
+                      fontFamily: fam,
+                      fontWeight: 500,
+                      border:
+                        fam === defaultFontFamily
+                          ? "2px solid var(--accent)"
+                          : "1.5px solid var(--border)",
+                      backgroundColor:
+                        fam === defaultFontFamily
+                          ? "color-mix(in srgb, var(--accent) 8%, transparent)"
+                          : "transparent",
+                      color: "var(--text-primary)",
+                      cursor: "pointer",
+                      textAlign: "center",
+                    }}
+                  >
+                    {FONT_LABELS[fam] || fam}
+                  </button>
+                ))}
+              </div>
 
-        {/* ── Default Font ── */}
-        <div style={sectionTitle}>Default Font</div>
-        <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 16 }}>
-          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-            {FONT_FAMILIES.map((fam) => (
-              <button
-                key={fam}
-                onClick={() => setDefaultFontFamily(fam)}
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <span style={{ fontSize: 12, color: "var(--text-secondary)", flexShrink: 0 }}>
+                  Size
+                </span>
+                <input
+                  type="range"
+                  min={8}
+                  max={72}
+                  value={defaultFontSize}
+                  onChange={(e) => setDefaultFontSize(Number(e.target.value))}
+                  style={{ flex: 1 }}
+                />
+                <span
+                  style={{
+                    fontSize: 12,
+                    fontWeight: 600,
+                    color: "var(--text-primary)",
+                    minWidth: 28,
+                    textAlign: "right",
+                  }}
+                >
+                  {defaultFontSize}
+                </span>
+              </div>
+
+              {/* Font preview */}
+              <div
                 style={{
-                  flex: "1 0 45%",
-                  padding: "8px 10px",
+                  padding: "12px 14px",
                   borderRadius: 8,
-                  fontSize: 12,
-                  fontFamily: fam,
-                  fontWeight: 500,
-                  border:
-                    fam === defaultFontFamily
-                      ? "2px solid var(--accent)"
-                      : "1.5px solid var(--border)",
-                  backgroundColor:
-                    fam === defaultFontFamily
-                      ? "color-mix(in srgb, var(--accent) 8%, transparent)"
-                      : "transparent",
+                  border: "1.5px solid var(--border)",
+                  backgroundColor: "color-mix(in srgb, var(--text-primary) 3%, transparent)",
+                  fontFamily: defaultFontFamily,
+                  fontSize: Math.min(defaultFontSize, 36),
+                  lineHeight: 1.4,
                   color: "var(--text-primary)",
-                  cursor: "pointer",
-                  textAlign: "center",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
                 }}
               >
-                {FONT_LABELS[fam] || fam}
-              </button>
-            ))}
-          </div>
+                The quick brown fox
+              </div>
+            </div>
 
-          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <span style={{ fontSize: 12, color: "var(--text-secondary)", flexShrink: 0 }}>
-              Size
-            </span>
-            <input
-              type="range"
-              min={8}
-              max={72}
-              value={defaultFontSize}
-              onChange={(e) => setDefaultFontSize(Number(e.target.value))}
-              style={{ flex: 1 }}
-            />
-            <span
-              style={{
-                fontSize: 12,
-                fontWeight: 600,
-                color: "var(--text-primary)",
-                minWidth: 28,
-                textAlign: "right",
-              }}
-            >
-              {defaultFontSize}
-            </span>
-          </div>
-
-          {/* Font preview */}
-          <div
-            style={{
-              padding: "12px 14px",
-              borderRadius: 8,
-              border: "1.5px solid var(--border)",
-              backgroundColor: "color-mix(in srgb, var(--text-primary) 3%, transparent)",
-              fontFamily: defaultFontFamily,
-              fontSize: Math.min(defaultFontSize, 36),
-              lineHeight: 1.4,
-              color: "var(--text-primary)",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-            }}
-          >
-            The quick brown fox
-          </div>
-        </div>
-
-        {/* ── Toolbar Position ── */}
-        <div style={sectionTitle}>Toolbar Position</div>
-        <div style={{ display: "flex", gap: 8 }}>
-          {(["left", "right"] as const).map((pos) => (
-            <button
-              key={pos}
-              onClick={() => setToolbarPosition(pos)}
-              style={{
-                flex: 1,
-                padding: "8px 12px",
-                borderRadius: 8,
-                fontSize: 13,
-                fontWeight: 600,
-                textTransform: "capitalize",
-                border:
-                  pos === toolbarPosition ? "2px solid var(--accent)" : "1.5px solid var(--border)",
-                backgroundColor:
-                  pos === toolbarPosition
-                    ? "color-mix(in srgb, var(--accent) 8%, transparent)"
-                    : "transparent",
-                color: pos === toolbarPosition ? "var(--accent)" : "var(--text-secondary)",
-                cursor: "pointer",
-              }}
-            >
-              {pos}
-            </button>
-          ))}
-        </div>
-
+            {/* ── Toolbar Position ── */}
+            <div style={sectionTitle}>Toolbar Position</div>
+            <div style={{ display: "flex", gap: 8 }}>
+              {(["left", "right"] as const).map((pos) => (
+                <button
+                  key={pos}
+                  onClick={() => setToolbarPosition(pos)}
+                  style={{
+                    flex: 1,
+                    padding: "8px 12px",
+                    borderRadius: 8,
+                    fontSize: 13,
+                    fontWeight: 600,
+                    textTransform: "capitalize",
+                    border:
+                      pos === toolbarPosition
+                        ? "2px solid var(--accent)"
+                        : "1.5px solid var(--border)",
+                    backgroundColor:
+                      pos === toolbarPosition
+                        ? "color-mix(in srgb, var(--accent) 8%, transparent)"
+                        : "transparent",
+                    color: pos === toolbarPosition ? "var(--accent)" : "var(--text-secondary)",
+                    cursor: "pointer",
+                  }}
+                >
+                  {pos}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </div>

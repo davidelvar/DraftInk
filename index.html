@@ -5,9 +5,57 @@
     <link rel="icon" type="image/png" href="/src-tauri/icons/32x32.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DraftInk</title>
+    <style>
+      /* Splash screen — visible until React mounts and replaces #root content */
+      #splash {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: #ffffff;
+        z-index: 9999;
+      }
+      @media (prefers-color-scheme: dark) {
+        #splash {
+          background: #111827;
+        }
+        #splash .splash-title {
+          color: #f9fafb;
+        }
+      }
+      #splash img {
+        width: 80px;
+        height: 80px;
+        animation: splash-pulse 1.6s ease-in-out infinite;
+      }
+      #splash .splash-title {
+        margin-top: 16px;
+        font-family: Inter, system-ui, -apple-system, sans-serif;
+        font-size: 20px;
+        font-weight: 600;
+        color: #1f2937;
+        letter-spacing: 0.02em;
+        opacity: 0;
+        animation: splash-fade-in 0.6s ease-out 0.2s forwards;
+      }
+      @keyframes splash-pulse {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.7; transform: scale(0.96); }
+      }
+      @keyframes splash-fade-in {
+        to { opacity: 1; }
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <div id="splash">
+        <img src="/src-tauri/icons/128x128.png" alt="DraftInk" />
+        <div class="splash-title">DraftInk</div>
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
